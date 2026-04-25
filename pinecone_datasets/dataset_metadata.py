@@ -16,7 +16,7 @@ class SparseModelMetdata(BaseModel):
 
 
 def get_time_now() -> str:
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+    pass
 
 
 class DatasetMetadata(BaseModel):
@@ -36,13 +36,7 @@ class DatasetMetadata(BaseModel):
 
     @staticmethod
     def empty() -> "DatasetMetadata":
-        return DatasetMetadata(
-            name="",
-            created_at=get_time_now(),
-            documents=0,
-            queries=0,
-            dense_model=DenseModelMetadata(name="", dimension=0),
-        )
+        pass
 
     def is_empty(self) -> bool:
-        return self.name == "" and self.documents == 0 and self.queries == 0
+        pass

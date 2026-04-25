@@ -22,18 +22,13 @@ logger = logging.getLogger(__name__)
 def iter_pandas_dataframe_slices(
     df: "pd.DataFrame", batch_size: int, return_indexes: bool
 ) -> Generator[list[dict[str, Any]], None, None]:
-    for i in range(0, len(df), batch_size):
-        if return_indexes:
-            yield (i, df.iloc[i : i + batch_size].to_dict(orient="records"))
-        else:
-            yield df.iloc[i : i + batch_size].to_dict(orient="records")
+    pass
 
 
 def iter_pandas_dataframe_single(
     df: "pd.DataFrame",
 ) -> Generator[dict[str, Any], None, None]:
-    for i in range(0, len(df), 1):
-        yield df.iloc[i : i + 1].to_dict(orient="records")[0]
+    pass
 
 
 class Dataset:
@@ -74,15 +69,7 @@ class Dataset:
         Returns:
             Dataset: a Dataset object
         """
-        instance = cls(dataset_path=None, **kwargs)
-        instance._documents = cls._read_pandas_dataframe(
-            documents, documents_column_mapping, Schema.Names.documents
-        )
-        instance._queries = cls._read_pandas_dataframe(
-            queries, queries_column_mapping, Schema.Names.queries
-        )
-        instance._metadata = metadata
-        return instance
+        pass
 
     @staticmethod
     def _read_pandas_dataframe(
@@ -101,21 +88,7 @@ class Dataset:
         Returns:
             pd.DataFrame: the validated, renamed DataFrame
         """
-        import pandas as pd
-
-        if df is None or df.empty:
-            return pd.DataFrame(columns=[column_name for column_name, _, _ in schema])
-        else:
-            if column_mapping is not None:
-                df.rename(columns=column_mapping, inplace=True)
-            for column_name, is_nullable, null_value in schema:
-                if column_name not in df.columns and not is_nullable:
-                    raise ValueError(
-                        f"error, file is not matching Pinecone Datasets Schmea: {column_name} not found"
-                    )
-                elif column_name not in df.columns and is_nullable:
-                    df[column_name] = null_value
-            return df[[column_name for column_name, _, _ in schema]]
+        pass
 
     def __init__(
         self,
@@ -170,29 +143,15 @@ class Dataset:
 
     @property
     def documents(self) -> "pd.DataFrame":
-        if self._documents is None and self._dataset_path is not None:
-            from .dataset_fsreader import DatasetFSReader
-
-            self._documents = DatasetFSReader.read_documents(
-                self._fs, self._dataset_path
-            )
-        return self._documents
+        pass
 
     @property
     def queries(self) -> "pd.DataFrame":
-        if self._queries is None and self._dataset_path is not None:
-            from .dataset_fsreader import DatasetFSReader
-
-            self._queries = DatasetFSReader.read_queries(self._fs, self._dataset_path)
-        return self._queries
+        pass
 
     @property
     def metadata(self) -> DatasetMetadata:
-        if self._metadata is None and self._dataset_path is not None:
-            from .dataset_fsreader import DatasetFSReader
-
-            self._metadata = DatasetFSReader.read_metadata(self._fs, self._dataset_path)
-        return self._metadata
+        pass
 
     def iter_documents(
         self, batch_size: int = 1, return_indexes=False
@@ -210,16 +169,7 @@ class Dataset:
             for batch in dataset.iter_documents(batch_size=100):
                 index.upsert(batch)
         """
-        if isinstance(batch_size, int) and batch_size > 0:
-            return iter_pandas_dataframe_slices(
-                df=self.documents[Schema.documents_select_columns].dropna(
-                    axis=1, how="all"
-                ),
-                batch_size=batch_size,
-                return_indexes=return_indexes,
-            )
-        else:
-            raise ValueError("batch_size must be greater than 0")
+        pass
 
     def iter_queries(self) -> Iterator[dict[str, Any]]:
         """
@@ -233,10 +183,10 @@ class Dataset:
                 results = index.query(**query)
                 # do something with the results
         """
-        return iter_pandas_dataframe_single(self.queries[Schema.queries_select_columns])
+        pass
 
     def head(self, n: int = 5) -> "pd.DataFrame":
-        return self.documents.head(n)
+        pass
 
     @deprecated
     @classmethod

@@ -113,12 +113,7 @@ def is_retryable_error(exception: Exception) -> bool:
 
 def log_retry_attempt(retry_state: RetryCallState) -> None:
     """Log retry attempts for debugging."""
-    if retry_state.attempt_number > 1:
-        exception = retry_state.outcome.exception()
-        logger.warning(
-            f"Retry attempt {retry_state.attempt_number} for {retry_state.fn.__name__} "
-            f"after error: {type(exception).__name__}: {exception}"
-        )
+    pass
 
 
 def create_cloud_storage_retry_decorator() -> Callable:
@@ -133,7 +128,7 @@ def create_cloud_storage_retry_decorator() -> Callable:
     if not config.is_enabled():
 
         def no_retry(func):
-            return func
+            pass
 
         return no_retry
 

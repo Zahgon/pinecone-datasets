@@ -92,6 +92,4 @@ class Catalog(BaseModel):
         """
         Save a dataset to the catalog.
         """
-        ds_path = os.path.join(self.base_path, dataset.metadata.name)
-        DatasetFSWriter.write_dataset(dataset_path=ds_path, dataset=dataset, **kwargs)
-        logger.info(f"Saved dataset {dataset.metadata.name} to {ds_path}")
+        pass

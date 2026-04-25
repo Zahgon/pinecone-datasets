@@ -30,7 +30,7 @@ class CacheManager:
 
     def _ensure_cache_dir(self) -> None:
         """Create cache directory if it doesn't exist."""
-        os.makedirs(self.cache_dir, exist_ok=True)
+        pass
 
     def _get_cache_path(self, remote_url: str) -> str:
         """
@@ -321,10 +321,7 @@ class CacheManager:
         Returns:
             True if file is cached and valid, False otherwise
         """
-        cache_path = self._get_cache_path(remote_url)
-        return os.path.exists(cache_path) and self._validate_cache(
-            cache_path, remote_url, fs
-        )
+        pass
 
     def clear_cache(self, pattern: Optional[str] = None) -> int:
         """
